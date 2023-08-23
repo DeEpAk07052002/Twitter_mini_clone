@@ -18,10 +18,12 @@ const getTweetsbyname = require("./routes/getTweetsbyname");
 const path = require("path");
 server.use(cors());
 server.use(bodyParser.json());
+let uri =
+  "mongodb+srv://deepakugpta0705:OirDdOHR8FII2ZDh@cluster0.qdfk76t.mongodb.net/?retryWrites=true&w=majority";
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/test");
+  await mongoose.connect(uri);
   console.log("db connected");
 }
 server.use(registerRoute);
