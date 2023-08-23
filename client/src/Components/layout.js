@@ -1,0 +1,222 @@
+import React, { useState, useEffect } from "react";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  MessageFilled,
+  HomeFilled,
+  BellFilled,
+  UserOutlined,
+  SearchOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
+import User from "./User";
+import Home from "./home";
+import { useNavigate } from "react-router-dom";
+import LoginPage from "./Login";
+import Profile from "./Profile";
+import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import {
+  Layout,
+  Menu,
+  Button,
+  theme,
+  Input,
+  Avatar,
+  Modal,
+  message,
+} from "antd";
+import { postTweet } from "../redux/slice/postTweet";
+
+const { Header, Sider, Content } = Layout;
+
+const Layouts = () => {
+  const location = useLocation();
+  // const location = useLocation();
+  // const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  console.log("state from layout", state);
+  const navigate = useNavigate();
+  console.log("current pathname", window.location.pathname);
+  useEffect(() => {
+    // Check if the current path is "/"
+    if (location.pathname === "/") {
+      // Redirect to the login path
+      navigate("/login");
+    }
+    // Other logic or side-effects you want to perform when the path changes
+  }, [location.pathname]);
+  // const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+  const handleMenuClick = (event) => {
+    console.log("event keys", event);
+    navigate(event.key);
+  };
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [postContent, setPostContent] = useState("");
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async () => {
+    // Implement logic to save the post content
+    if (postContent?.length === 0) {
+      message.error("Content must not be empty");
+      return;
+    }
+    let data = {
+      created_by: localStorage.getItem("username"),
+      content: postContent,
+      type: "add",
+    };
+    await dispatch(postTweet(data));
+    message.success(state.postTweet.data?.status);
+    setIsModalVisible(false);
+    setPostContent("");
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setPostContent("");
+  };
+  const defaultSelectedKey = location.pathname;
+  return (
+    // <Router>
+    <div>
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sider
+          trigger={null}
+          style={{ position: "fixed", height: "100vh", overflowY: "auto" }}
+        >
+          <div className="demo-logo-vertical" />
+          <Menu
+            onClick={handleMenuClick}
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={[defaultSelectedKey]}
+          >
+            <Menu.Item
+              key="/home"
+              icon={<HomeFilled />}
+              style={{ padding: "30px" }} // Add padding here
+            >
+              Home
+            </Menu.Item>
+            {/* <Menu.Item
+            key="/notification"
+            icon={<BellFilled />}
+            style={{ padding: "30px" }} // Add padding here
+          >
+            Notification
+          </Menu.Item> */}
+
+            <Menu.Item
+              key="/profile"
+              icon={<UserOutlined />}
+              style={{ padding: "30px" }} // Add padding here
+            >
+              Profile
+            </Menu.Item>
+            <Menu.Item
+              key="/user"
+              icon={<SearchOutlined />}
+              style={{ padding: "30px" }} // Add padding here
+            >
+              Explore
+            </Menu.Item>
+            {/* <Menu.Item key="5" style={{ padding: "30px" }}> */}
+            <Button
+              type="primary"
+              size="large"
+              style={{ width: "70%", left: "15%" }}
+              onClick={showModal}
+            >
+              Post
+            </Button>
+            {/* </Menu.Item> */}
+          </Menu>
+          <Button
+            type="danger"
+            style={{ marginTop: "400px", color: "white" }}
+            icon={<LogoutOutlined />}
+            onClick={(e) => {
+              e.preventDefault();
+              localStorage.clear();
+              navigate("/login");
+            }}
+          >
+            Logout
+          </Button>
+        </Sider>
+        <Layout>
+          {/* <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        >
+          {/* <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: "16px",
+              width: 64,F
+              height: 64,
+            }}
+          /> */}
+          {/* </Header> */}
+          <Content
+            style={{
+              marginLeft: "200px ",
+              padding: 24,
+              // minHeight: 280,\
+              // left: "1000px",
+              background: colorBgContainer,
+              overflow: "auto",
+            }}
+          >
+            <Routes>
+              <Route path="/user" element={<User />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </Content>
+        </Layout>
+      </Layout>
+      <Modal
+        title="Create a New Post"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={500}
+      >
+        <Input.TextArea
+          placeholder="What's happening?"
+          value={postContent}
+          onChange={(e) => setPostContent(e.target.value)}
+          rows={4}
+        />
+        <div
+          style={{ marginTop: "16px", display: "flex", alignItems: "center" }}
+        >
+          <Avatar
+            size={32}
+            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1}"
+          />
+          <span style={{ marginLeft: "8px" }}>
+            {localStorage.getItem("username")}
+          </span>
+        </div>
+      </Modal>
+    </div>
+    // </Router>
+  );
+};
+export default Layouts;
