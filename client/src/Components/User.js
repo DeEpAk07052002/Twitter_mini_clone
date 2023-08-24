@@ -119,7 +119,13 @@ const User = () => {
                   }
                   // description={item?.description}
                 />
-                <div style={{ paddingRight: "50%", paddingBottom: "3%" }}>
+                <div
+                  style={{
+                    paddingRight:
+                      localStorage.getItem("windowWidth") > 600 ? "50%" : "0%",
+                    paddingBottom: "3%",
+                  }}
+                >
                   <Button
                     // value={friends_list.includes(item?._id) ? 0 : 1}
                     type={

@@ -113,7 +113,7 @@ const TweetList = (props) => {
               }
               extra={
                 <img
-                  width={272}
+                  width={localStorage.getItem("windowWidth") < 600 ? 100 : 200}
                   alt="logo"
                   src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
                 />
@@ -141,10 +141,12 @@ const TweetList = (props) => {
                       {item.created_by}
                     </span>
                     <span style={{ fontSize: "10px" }}>
-                      {new Date(item.created_on).toLocaleString(
-                        "en-US",
-                        options
-                      )}
+                      {localStorage.getItem("windowWidth") > 600
+                        ? new Date(item.created_on).toLocaleString(
+                            "en-US",
+                            options
+                          )
+                        : null}
                       {localStorage.getItem("username") == item.created_by ? (
                         <span>
                           <EditTwoTone
