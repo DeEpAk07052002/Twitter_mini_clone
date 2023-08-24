@@ -147,8 +147,10 @@ const Layouts = () => {
             icon={<LogoutOutlined />}
             onClick={(e) => {
               e.preventDefault();
+
               localStorage.clear();
               navigate("/login");
+              window.location.reload();
             }}
           >
             Logout
