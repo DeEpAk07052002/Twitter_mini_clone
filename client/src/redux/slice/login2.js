@@ -2,11 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 export const checkuser = createAsyncThunk("checkuser", async (data) => {
   console.log("this is data before sending", data);
-  const response = await axios.post("http://localhost:8080/login", data, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await axios.post(
+    "https://twitter-clone-4.onrender.com/login",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   console.log("this is response checkuser", response);
   return response.data;
 });

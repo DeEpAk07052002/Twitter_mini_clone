@@ -6,7 +6,7 @@ export const getTweet = createAsyncThunk("getTweet", async () => {
   let username = localStorage.getItem("username");
   console.log("this is usernaem of getTweet", username);
   const response = await axios.get(
-    `http://localhost:8080/postTweet/${username}`,
+    `https://twitter-clone-4.onrender.com/postTweet/${username}`,
     {
       headers: {
         "Content-Type": "application/json",

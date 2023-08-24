@@ -9,7 +9,7 @@ export const getTweetsbyname = createAsyncThunk(
     console.log("this is username ", username);
     console.log("this is usernaem of getTweetsbyname", username);
     const response = await axios.get(
-      `http://localhost:8080/getTweetsbyname/${username}`,
+      `https://twitter-clone-4.onrender.com/getTweetsbyname/${username}`,
       {
         headers: {
           "Content-Type": "application/json",

@@ -3,7 +3,7 @@ import axios from "axios";
 export const updateFriend = createAsyncThunk("updateFriend", async (data) => {
   // console.log("this data transmitted", data);
   const response = await axios.post(
-    `http://localhost:8080/updateFriend`,
+    `https://twitter-clone-4.onrender.com/updateFriend`,
     data,
     {
       headers: {

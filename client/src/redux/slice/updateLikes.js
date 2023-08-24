@@ -4,7 +4,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 export const updateLikes = createAsyncThunk("updateLikes", async (data) => {
   const response = await axios.post(
-    `http://localhost:8080/updateLikes/${data.id}/${data.likes}`,
+    `https://twitter-clone-4.onrender.com/updateLikes/${data.id}/${data.likes}`,
     {
       headers: {
         "Content-Type": "application/json",

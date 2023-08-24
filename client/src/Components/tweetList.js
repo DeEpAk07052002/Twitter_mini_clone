@@ -16,6 +16,7 @@ import {
   Input,
   Modal,
 } from "antd";
+import "./list.css";
 import { useNavigate } from "react-router-dom";
 const IconText = ({ icon, text, key, handleLikeClick, value }) => (
   <Space
@@ -77,11 +78,14 @@ const TweetList = (props) => {
   //   console.log("this item is clicked", e);
   //   props.update_data(e);
   // };
+  // let width=localStorage.getItem("")?:"70%":"100%";
   return (
     <div>
       {data && data.length !== 0 ? (
         <List
-          style={{ width: "70%" }}
+          style={{
+            width: localStorage.getItem("windowWidth") > 900 ? "70%" : "100%",
+          }}
           itemLayout="vertical"
           size="small"
           //   pagination={{
@@ -93,6 +97,7 @@ const TweetList = (props) => {
           dataSource={data} // Set dataSource to data
           renderItem={(item) => (
             <List.Item
+              className="custom-list-item"
               key={item.created_by}
               actions={
                 [

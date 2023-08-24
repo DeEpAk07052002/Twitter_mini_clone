@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Form, Input, Button, Card, message } from "antd";
+import { Form, Input, Button, Card, message, Spin, Skeleton } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./LoginPage.css";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const LoginPage = () => {
   }, []);
   const state = useSelector((state) => state);
   const [click, setClick] = useState(false);
-  console.log("state", state);
+  console.log("state", state, state.login.isLoading);
 
   const dispatch = useDispatch();
   // const [messageApi, contextHolder] = message.useMessage();
@@ -55,46 +55,50 @@ const LoginPage = () => {
   }, [state]);
 
   return (
-    <div className="login-page">
-      <Card className="login-card" title="Login">
-        <Form name="normal_login" onFinish={onFinish}>
-          <Form.Item
-            name="email"
-            rules={[{ required: true, message: "Please input your Email!" }]}
-          >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Email"
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
+    <Skeleton paragraph={{ rows: 40 }} active loading={state.login.isLoading}>
+      <div className="login-page">
+        <Card className="login-card" title="Login">
+          <Form name="normal_login" onFinish={onFinish}>
+            <Form.Item
+              name="email"
+              rules={[{ required: true, message: "Please input your Email!" }]}
             >
-              Log in
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <Button type="link" onClick={() => navigate("/register")}>
-              Does not having account ?Signup
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    </div>
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Email"
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              rules={[
+                { required: true, message: "Please input your Password!" },
+              ]}
+            >
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder="Password"
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+              >
+                Log in
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button type="link" onClick={() => navigate("/register")}>
+                Does not having account ?Signup
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </div>
+    </Skeleton>
   );
 };
 

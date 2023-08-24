@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Avatar, Typography, Row, Col, Input, Button } from "antd";
+import { Avatar, Typography, Row, Col, Input, Button, Skeleton } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "./ProfileHeader.css"; // Import your custom CSS
 import { useDispatch, useSelector } from "react-redux";
@@ -103,32 +103,44 @@ const Profile = () => {
   };
   return (
     <div>
-      <div className="profile-header">
-        <div className="cover-image"></div>
-        <div className="avatar-container">
-          <Avatar size={120} icon={<UserOutlined />} className="avatar" />
-        </div>
-        <div className="profile-details">
-          <Title level={3}>{username}</Title>
-          {/* <Text className="username">@johndoe</Text> */}
+      <Skeleton
+        active
+        paragraph={{ rows: 6 }}
+        loading={state.alldetails.isLoading}
+      >
+        <div className="profile-header">
+          <div className="cover-image"></div>
+          <div className="avatar-container">
+            <Avatar size={120} icon={<UserOutlined />} className="avatar" />
+          </div>
+          <div className="profile-details">
+            <Title level={3}>{username}</Title>
+            {/* <Text className="username">@johndoe</Text> */}
 
-          <Text className="bio">{descriptionarea}</Text>
-          <div className="follow-stats">
-            <Text strong>{data?.followerscnt ? data?.followerscnt : 0}</Text>{" "}
-            Followers{" "}
-            <Text strong>{data?.followingcnt ? data?.followingcnt : 0}</Text>{" "}
-            Following
+            <Text className="bio">{descriptionarea}</Text>
+            <div className="follow-stats">
+              <Text strong>{data?.followerscnt ? data?.followerscnt : 0}</Text>{" "}
+              Followers{" "}
+              <Text strong>{data?.followingcnt ? data?.followingcnt : 0}</Text>{" "}
+              Following
+            </div>
           </div>
         </div>
-      </div>
+      </Skeleton>
       <div className="post-heading">
         <Title level={4}>Recent Posts</Title>
       </div>
-      <TweetList
-        data={dataTweet}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-      />
+      <Skeleton
+        active
+        paragraph={{ rows: 6 }}
+        loading={state.getTweetsbyname.isLoading}
+      >
+        <TweetList
+          data={dataTweet}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
+      </Skeleton>
     </div>
   );
 };

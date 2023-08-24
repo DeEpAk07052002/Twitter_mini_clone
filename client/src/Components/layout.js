@@ -33,6 +33,8 @@ const { Header, Sider, Content } = Layout;
 
 const Layouts = () => {
   const location = useLocation();
+  // const [type, setType] = useState("pc");
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   // const location = useLocation();
   // const navigate = useNavigate();
 
@@ -86,29 +88,135 @@ const Layouts = () => {
     setPostContent("");
   };
   const defaultSelectedKey = location.pathname;
-  return (
-    // <Router>
-    <div>
-      <Layout style={{ minHeight: "100vh" }}>
-        <Sider
-          trigger={null}
-          style={{ position: "fixed", height: "100vh", overflowY: "auto" }}
-        >
-          <div className="demo-logo-vertical" />
-          <Menu
-            onClick={handleMenuClick}
-            theme="dark"
-            mode="inline"
-            defaultSelectedKeys={[defaultSelectedKey]}
-          >
-            <Menu.Item
-              key="/home"
-              icon={<HomeFilled />}
-              style={{ padding: "30px" }} // Add padding here
+
+  useEffect(() => {
+    // Function to update window width state
+    const handleResize = () => {
+      localStorage.setItem("windowWidth", window.innerWidth.toString());
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Add event listener to 'resize' event
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  console.log("innerwidth", windowWidth);
+  if (windowWidth < 930) {
+    return (
+      // <Router>
+
+      <div>
+        <Layout style={{ minHeight: "100vh" }}>
+          <Layout.Header style={{ background: "#001529", padding: 0 }}>
+            <div className="demo-logo-horizontal" />
+            <Menu
+              onClick={handleMenuClick}
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={[defaultSelectedKey]}
+              style={{ lineHeight: "64px" }}
             >
-              Home
-            </Menu.Item>
-            {/* <Menu.Item
+              <Menu.Item key="/home" icon={<HomeFilled />}>
+                Home
+              </Menu.Item>
+              <Menu.Item key="/profile" icon={<UserOutlined />}>
+                Profile
+              </Menu.Item>
+              <Menu.Item key="/user" icon={<SearchOutlined />}>
+                Explore
+              </Menu.Item>
+              <Menu.Item key="post" style={{ float: "right" }}>
+                <Button type="primary" size="large" onClick={showModal}>
+                  Post
+                </Button>
+              </Menu.Item>
+            </Menu>
+            <Button
+              type="danger"
+              style={{ float: "right", marginTop: "15px", marginRight: "15px" }}
+              icon={<LogoutOutlined />}
+              onClick={(e) => {
+                e.preventDefault();
+
+                localStorage.clear();
+                navigate("/login");
+                window.location.reload();
+              }}
+            >
+              Logout
+            </Button>
+          </Layout.Header>
+          <Layout>
+            <Content
+              style={{
+                padding: 24,
+                background: colorBgContainer,
+                overflow: "auto",
+              }}
+            >
+              <Routes>
+                <Route path="/user" element={<User />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </Content>
+          </Layout>
+        </Layout>
+        <Modal
+          title="Create a New Post"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          width={500}
+        >
+          <Input.TextArea
+            placeholder="What's happening?"
+            value={postContent}
+            onChange={(e) => setPostContent(e.target.value)}
+            rows={4}
+          />
+          <div
+            style={{ marginTop: "16px", display: "flex", alignItems: "center" }}
+          >
+            <Avatar
+              size={32}
+              src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1}"
+            />
+            <span style={{ marginLeft: "8px" }}>
+              {localStorage.getItem("username")}
+            </span>
+          </div>
+        </Modal>
+      </div>
+      // </Router>
+    );
+  } else {
+    return (
+      <div>
+        <Layout style={{ minHeight: "100vh" }}>
+          <Sider
+            trigger={null}
+            style={{ position: "fixed", height: "100vh", overflowY: "auto" }}
+          >
+            <div className="demo-logo-vertical" />
+            <Menu
+              onClick={handleMenuClick}
+              theme="dark"
+              mode="inline"
+              defaultSelectedKeys={[defaultSelectedKey]}
+            >
+              <Menu.Item
+                key="/home"
+                icon={<HomeFilled />}
+                style={{ padding: "30px" }} // Add padding here
+              >
+                Home
+              </Menu.Item>
+              {/* <Menu.Item
             key="/notification"
             icon={<BellFilled />}
             style={{ padding: "30px" }} // Add padding here
@@ -116,48 +224,48 @@ const Layouts = () => {
             Notification
           </Menu.Item> */}
 
-            <Menu.Item
-              key="/profile"
-              icon={<UserOutlined />}
-              style={{ padding: "30px" }} // Add padding here
-            >
-              Profile
-            </Menu.Item>
-            <Menu.Item
-              key="/user"
-              icon={<SearchOutlined />}
-              style={{ padding: "30px" }} // Add padding here
-            >
-              Explore
-            </Menu.Item>
-            {/* <Menu.Item key="5" style={{ padding: "30px" }}> */}
+              <Menu.Item
+                key="/profile"
+                icon={<UserOutlined />}
+                style={{ padding: "30px" }} // Add padding here
+              >
+                Profile
+              </Menu.Item>
+              <Menu.Item
+                key="/user"
+                icon={<SearchOutlined />}
+                style={{ padding: "30px" }} // Add padding here
+              >
+                Explore
+              </Menu.Item>
+              {/* <Menu.Item key="5" style={{ padding: "30px" }}> */}
+              <Button
+                type="primary"
+                size="large"
+                style={{ width: "70%", left: "15%" }}
+                onClick={showModal}
+              >
+                Post
+              </Button>
+              {/* </Menu.Item> */}
+            </Menu>
             <Button
-              type="primary"
-              size="large"
-              style={{ width: "70%", left: "15%" }}
-              onClick={showModal}
-            >
-              Post
-            </Button>
-            {/* </Menu.Item> */}
-          </Menu>
-          <Button
-            type="danger"
-            style={{ marginTop: "400px", color: "white" }}
-            icon={<LogoutOutlined />}
-            onClick={(e) => {
-              e.preventDefault();
+              type="danger"
+              style={{ marginTop: "400px", color: "white" }}
+              icon={<LogoutOutlined />}
+              onClick={(e) => {
+                e.preventDefault();
 
-              localStorage.clear();
-              navigate("/login");
-              window.location.reload();
-            }}
-          >
-            Logout
-          </Button>
-        </Sider>
-        <Layout>
-          {/* <Header
+                localStorage.clear();
+                navigate("/login");
+                window.location.reload();
+              }}
+            >
+              Logout
+            </Button>
+          </Sider>
+          <Layout>
+            {/* <Header
           style={{
             padding: 0,
             background: colorBgContainer,
@@ -173,52 +281,52 @@ const Layouts = () => {
               height: 64,
             }}
           /> */}
-          {/* </Header> */}
-          <Content
-            style={{
-              marginLeft: "200px ",
-              padding: 24,
-              // minHeight: 280,\
-              // left: "1000px",
-              background: colorBgContainer,
-              overflow: "auto",
-            }}
-          >
-            <Routes>
-              <Route path="/user" element={<User />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
-          </Content>
+            {/* </Header> */}
+            <Content
+              style={{
+                marginLeft: "200px ",
+                padding: 24,
+                // minHeight: 280,\
+                // left: "1000px",
+                background: colorBgContainer,
+                overflow: "auto",
+              }}
+            >
+              <Routes>
+                <Route path="/user" element={<User />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
-      <Modal
-        title="Create a New Post"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        width={500}
-      >
-        <Input.TextArea
-          placeholder="What's happening?"
-          value={postContent}
-          onChange={(e) => setPostContent(e.target.value)}
-          rows={4}
-        />
-        <div
-          style={{ marginTop: "16px", display: "flex", alignItems: "center" }}
+        <Modal
+          title="Create a New Post"
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          width={500}
         >
-          <Avatar
-            size={32}
-            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1}"
+          <Input.TextArea
+            placeholder="What's happening?"
+            value={postContent}
+            onChange={(e) => setPostContent(e.target.value)}
+            rows={4}
           />
-          <span style={{ marginLeft: "8px" }}>
-            {localStorage.getItem("username")}
-          </span>
-        </div>
-      </Modal>
-    </div>
-    // </Router>
-  );
+          <div
+            style={{ marginTop: "16px", display: "flex", alignItems: "center" }}
+          >
+            <Avatar
+              size={32}
+              src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1}"
+            />
+            <span style={{ marginLeft: "8px" }}>
+              {localStorage.getItem("username")}
+            </span>
+          </div>
+        </Modal>
+      </div>
+    );
+  }
 };
 export default Layouts;

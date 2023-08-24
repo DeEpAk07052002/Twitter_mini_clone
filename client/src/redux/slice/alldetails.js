@@ -5,7 +5,7 @@ export const alldetails = createAsyncThunk("alldetails", async (data) => {
   const username = data.username;
 
   const response = await axios.get(
-    `http://localhost:8080/alldetails/${username}`,
+    `https://twitter-clone-4.onrender.com/alldetails/${username}`,
     {
       headers: {
         "Content-Type": "application/json",

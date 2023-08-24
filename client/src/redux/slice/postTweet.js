@@ -4,11 +4,15 @@ export const postTweet = createAsyncThunk("postTweet", async (data) => {
   // console.log("this data transmitted", data);
   // let id = localStorage.getItem("user_id");
   console.log("this is data for post tweet", data);
-  const response = await axios.post(`http://localhost:8080/postTweet`, data, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await axios.post(
+    `https://twitter-clone-4.onrender.com/postTweet`,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   console.log("this is response from posttweet", response);
   return response.data;
 });

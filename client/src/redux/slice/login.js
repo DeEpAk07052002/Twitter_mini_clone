@@ -4,11 +4,15 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 export const adduser = createAsyncThunk("adduser", async (data) => {
   console.log("this data transmitted", data);
-  const response = await axios.post("http://localhost:8080/register", data, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await axios.post(
+    "https://twitter-clone-4.onrender.com/register",
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   console.log("this is response", response);
   return response.data;
 });
