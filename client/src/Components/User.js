@@ -117,7 +117,7 @@ const User = () => {
                       {item?.username}
                     </span>
                   }
-                  description={state.userDetails?.data?.description}
+                  // description={item?.description}
                 />
                 <div style={{ paddingRight: "50%", paddingBottom: "3%" }}>
                   <Button
