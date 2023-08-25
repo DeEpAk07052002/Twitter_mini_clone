@@ -55,50 +55,48 @@ const LoginPage = () => {
   }, [state]);
 
   return (
-    <Skeleton paragraph={{ rows: 40 }} active loading={state.login.isLoading}>
-      <div className="login-page">
-        <Card className="login-card" title="Login">
-          <Form name="normal_login" onFinish={onFinish}>
-            <Form.Item
-              name="email"
-              rules={[{ required: true, message: "Please input your Email!" }]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Email"
-              />
-            </Form.Item>
+    // <Skeleton paragraph={{ rows: 40 }} active loading={state.login.isLoading}>
+    <div className="login-page">
+      <Card className="login-card" title="Login">
+        <Form name="normal_login" onFinish={onFinish}>
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your Email!" }]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Email"
+            />
+          </Form.Item>
 
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Please input your Password!" },
-              ]}
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
             >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-              >
-                Log in
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Button type="link" onClick={() => navigate("/register")}>
-                Does not having account ?Signup
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </div>
-    </Skeleton>
+              Log in
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button type="link" onClick={() => navigate("/register")}>
+              Does not having account ?Signup
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    </div>
+    // </Skeleton>
   );
 };
 
