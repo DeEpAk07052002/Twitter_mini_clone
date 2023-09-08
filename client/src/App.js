@@ -17,19 +17,19 @@ function App() {
   // }
 
   return (
-    // <div>
-    <Router>
-      {/* <Layouts /> */}
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        {/* <Route path="/home" element={<Layouts />} /> */}
-        {/* <Route path="/user" element={<User />} /> */}
-      </Routes>
-      <Layouts />
-      {/* <Layouts /> */}
-    </Router>
-    // </div>
+    <div>
+      <Router>
+        {/* <Layouts /> */}
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          {/* <Route path="/home" element={<Layouts />} /> */}
+          {/* <Route path="/user" element={<User />} /> */}
+        </Routes>
+        <Layouts />
+        {/* <Layouts /> */}
+      </Router>
+    </div>
   );
 }
 export default App;

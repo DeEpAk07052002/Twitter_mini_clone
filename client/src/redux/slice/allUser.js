@@ -2,11 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 export const allUser = createAsyncThunk("allUser", async () => {
   // console.log("this data transmitted", data);
+  let token = localStorage.getItem("access_token");
   const response = await axios.get(
     "https://twitter-clone-4.onrender.com/getUser",
     {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include the JWT token here
       },
     }
   );

@@ -74,10 +74,10 @@ const TweetList = (props) => {
 
   console.log("this is props data", data);
   // const filteredData = data.filter((item) => item._id !== e.id);
-  // const handleLikeClick = (e) => {
-  //   console.log("this item is clicked", e);
-  //   props.update_data(e);
-  // };
+  const handleLikeClick = (e) => {
+    console.log("this item is clicked", e);
+    props.update_data(e);
+  };
   // let width=localStorage.getItem("")?:"70%":"100%";
   return (
     <div>
@@ -99,18 +99,16 @@ const TweetList = (props) => {
             <List.Item
               className="custom-list-item"
               key={item.created_by}
-              actions={
-                [
-                  // <IconText
-                  //   style={{ cursor: "pointer" }}
-                  //   icon={LikeOutlined}
-                  //   text={item.likes}
-                  //   value={item._id}
-                  //   key={item._id}
-                  //   handleLikeClick={handleLikeClick}
-                  // />,
-                ]
-              }
+              actions={[
+                <IconText
+                  style={{ cursor: "pointer" }}
+                  icon={LikeOutlined}
+                  text={item.likes}
+                  value={item._id}
+                  key={item._id}
+                  handleLikeClick={handleLikeClick}
+                />,
+              ]}
               extra={
                 <img
                   width={localStorage.getItem("windowWidth") < 600 ? 100 : 200}
